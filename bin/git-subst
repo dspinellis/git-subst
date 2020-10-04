@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# Git subcommand that substitutes the specified regular expression with
+# the specified replacement.  The substitution is only performed in
+# the Git-tracked files that contain the specified RE.
+#
+# To install it place it as 'git-subst' in a directory of your PATH
+# Run it as: git subst old-re-pattern new-string
+#
+# Diomidis Spinellis, October 2020, Public Domain
+#
+# See also: git-grep(1), sed(1), https://www.spinellis.gr/unix
+#
+
+set -e
+
+if [ -z "$1" ] ; then
+  echo "Usage: $0 search-pattern replacement-string" 1>&2
+  cat <<\EOF 1>&2
+
+Examples:
+git subst old new
+git subst '\.Body' .body  # . RE character is escaped
+git subst '\<statuscode\>' statusCode  # Matches whole words only
+git subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
+EOF
+  exit 1
+fi
+
+# Obtain an in-place replacement option compatible with GNU and BSD sed
+if sed --quiet q /dev/null 2>/dev/null ; then
+  # GNU
+  inplace=-i
+else
+  # BSD (and macOS)
+  inplace='-i ""'
+fi
+
+git grep -zl "$1" |
+  xargs -r0 sed -E $inplace "s$1$2g"
