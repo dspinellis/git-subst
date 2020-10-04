@@ -40,4 +40,4 @@ fi
 S=$'\a'
 
 git grep -zl "$1" |
-  xargs -r0 sed -E $inplace "s$S$1$S$2$Sg"
+  xargs -r0 sed -E $inplace "s$S$1$S$2${S}g"
