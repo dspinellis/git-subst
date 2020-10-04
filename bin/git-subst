@@ -36,8 +36,16 @@ else
   inplace='-i ""'
 fi
 
+# Obtain the xargs option for not executing 0 args
+# Note the GNU requires this, while on macOS and FreeBSD this is the
+# default behavior.  Note that FreeBSD supports this option as a no-op
+# for compatibility.
+if xargs -r </dev/null 2>/dev/null ; then
+  skip_empty=-r
+fi
+
 # A rare separation character for sed (alert; ASCII 7)
 S=$'\a'
 
 git grep -zl "$1" |
-  xargs -r0 sed -E $inplace "s$S$1$S$2${S}g"
+  xargs -0 sed -E $skip_empty $inplace "s$S$1$S$2${S}g"
