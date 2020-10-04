@@ -36,5 +36,8 @@ else
   inplace='-i ""'
 fi
 
+# A rare separation character for sed (alert; ASCII 7)
+S=$'\a'
+
 git grep -zl "$1" |
-  xargs -r0 sed -E $inplace "s$1$2g"
+  xargs -r0 sed -E $inplace "s$S$1$S$2$Sg"
