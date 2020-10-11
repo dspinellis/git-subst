@@ -45,7 +45,7 @@ if xargs -r </dev/null 2>/dev/null ; then
 fi
 
 # A rare separation character for sed (alert; ASCII 7)
-S=$'\a'
+S=$(printf '\a')
 
 git grep -zl "$1" |
   xargs -0 sed -E $skip_empty $inplace "s$S$1$S$2${S}g"
