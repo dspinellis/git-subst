@@ -2,10 +2,11 @@
 #
 # Git subcommand that substitutes the specified regular expression with
 # the specified replacement.  The substitution is only performed in
-# the Git-tracked files that contain the specified RE.
+# the Git-tracked files that contain the specified RE located in the
+# current directory and below.
 #
-# To install it place it as 'git-subst' in a directory of your PATH
-# Run it as: git subst old-re-pattern new-string
+# To install place it as 'git-subst' in a directory of your PATH.
+# Run it as: git subst old-re-pattern new-string.
 #
 # Diomidis Spinellis, October 2020, Public Domain
 #
@@ -37,9 +38,8 @@ else
 fi
 
 # Obtain the xargs option for not executing 0 args
-# Note the GNU requires this, while on macOS and FreeBSD this is the
-# default behavior.  Note that FreeBSD supports this option as a no-op
-# for compatibility.
+# GNU requires this, while on macOS and FreeBSD this is the default behavior.
+# FreeBSD supports this option as a no-op for compatibility.
 if xargs -r </dev/null 2>/dev/null ; then
   skip_empty=-r
 fi
