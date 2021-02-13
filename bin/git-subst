@@ -44,6 +44,16 @@ if xargs -r </dev/null 2>/dev/null ; then
   skip_empty=-r
 fi
 
+# FreeBSD sed supports -E
+# GNU sed on Debian and CygWin supports -E -r and --regexp extended
+# It recommends -E for portability
+# But Amazon Linux doesn't suport -E!
+if sed -E </dev/null 2>/dev/null ; then
+  regexp_extended=-E
+else
+  regexp_extended=-r
+fi
+
 # A rare separation character for sed (alert; ASCII 7)
 S=$(printf '\a')
 
