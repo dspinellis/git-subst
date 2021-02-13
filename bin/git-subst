@@ -58,4 +58,4 @@ fi
 S=$(printf '\a')
 
 git grep --extended-regexp --null --name-only "$1" |
-  xargs -0 sed -E $skip_empty $inplace "s$S$1$S$2${S}g"
+  xargs $skip_empty -0 sed $regexp_extended $inplace "s$S$1$S$2${S}g"
