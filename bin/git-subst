@@ -57,5 +57,5 @@ fi
 # A rare separation character for sed (alert; ASCII 7)
 S=$(printf '\a')
 
-git grep --extended-regexp --null --name-only "$1" |
+git grep --extended-regexp --null --name-only -- "$1" |
   xargs $skip_empty -0 sed $regexp_extended $inplace "s$S$1$S$2${S}g"
