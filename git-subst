@@ -1,16 +1,20 @@
 #!/bin/sh
 #
-# Git subcommand that substitutes the specified regular expression with
-# the specified replacement.  The substitution is only performed in
-# the Git-tracked files that contain the specified RE located in the
-# current directory and below.
+# git subcommand to perform RE replacements
 #
-# To install place it as 'git-subst' in a directory of your PATH.
-# Run it as: git subst old-re-pattern new-string.
+# Copyright 2020-2023 Diomidis Spinellis
 #
-# Diomidis Spinellis, October 2020, Public Domain
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# See also: git-grep(1), sed(1), https://www.spinellis.gr/unix
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 
 set -e
@@ -31,7 +35,7 @@ fi
 # Obtain an in-place replacement option compatible with GNU and BSD sed
 if sed --quiet q /dev/null 2>/dev/null ; then
   # GNU
-  inplace=-i
+   nplace=-i
 else
   # BSD (and macOS)
   inplace='-i ""'
