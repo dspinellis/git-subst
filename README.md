@@ -14,6 +14,7 @@ Run the command as: `git subst` _existing-RE-pattern_ _replacement-string_
 ## Examples
 ```sh
 git subst old new
+git subst -n old new  # Show the changes but do not perform them
 git subst '\.Body' .body  # . RE character is escaped
 git subst '\<statuscode\>' statusCode  # Matches whole words only
 git subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
