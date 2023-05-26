@@ -24,4 +24,4 @@ git subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
 Diomidis Spinellis
 
 ## See also
-git-grep(1), sed(1), https://www.spinellis.gr/unix
+[git-grep(1)](https://git-scm.com/docs/git-grep), [sed(1)](https://linux.die.net/man/1/sed), [Unix Tools: Data, Software and Production Engineering](https://www.spinellis.gr/unix?git-subst) free massive open online course (MOOC) hosted by edX.
