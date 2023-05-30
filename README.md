@@ -6,16 +6,16 @@ current directory and below.
 
 ## Installation
 Place the `git-subst` file in a directory of your PATH and give it
-execute permission
+execute permission.
 
 ## Execution
-Run the command as: `git subst` _existing-RE-pattern_ _replacement-string_
+Run the command as: `git subst` _existing-RE-pattern_ _replacement-string_.
 
 ## Examples
 ```sh
-git subst old new
+git subst old new  # All instances of "old" become "new"
 git subst -n old new  # Show the changes but do not perform them
-git subst '\.Body' .body  # . RE character is escaped
+git subst '\.Body' .body  # The "." RE special character is escaped
 git subst '\<statuscode\>' statusCode  # Matches whole words only
 git subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
 ```
