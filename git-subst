@@ -90,8 +90,8 @@ if [ -n "$show_only" ] ; then
   git stash apply -q
 fi
 
-# Perform the specified replacement
-git grep --extended-regexp --null --name-only -- "$1" |
+# Perform the specified replacement (-I excludes binary files)
+git grep -I --extended-regexp --null --name-only -- "$1" |
   xargs $skip_empty -0 sed $regexp_extended $inplace "s$S$1$S$2${S}g"
 
 if [ -n "$show_only" ] ; then
