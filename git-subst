@@ -52,7 +52,7 @@ done
 
 shift "$((OPTIND-1))"
 
-if [ -z "$1" -o -z "$2" -o -n "$3" ] ; then
+if [ "$#" -ne 2 ]; then
   usage
 fi
 
