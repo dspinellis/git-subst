@@ -22,15 +22,17 @@ set -e
 # Display usage information and exit
 usage()
 {
-  echo "Usage: $0 [-n] search-pattern replacement-string" 1>&2
+  echo "Usage: $0 [-c context-RE] [-n] search-pattern replacement-string" 1>&2
   cat <<\EOF 1>&2
-Replace the regular expression with a string.
+Replace the specified regular expression with a string.
 
-  -n Only show what replacements will be performed
+  -c context   Perform the change only on lines matching context regexp.
+  -n           Only show what replacements will be performed.
 
 Examples:
-  git subst old new
-  git subst '\.Body' .body  # . RE character is escaped
+  git subst old new          # Change old to new
+  git subst -c ^// old new   # Change old to new only on lines starting with //
+  git subst '\.Body' .body               # . RE character is escaped
   git subst '\<statuscode\>' statusCode  # Matches whole words only
   git subst '\.method\(\)' '.field'      # .method() becomes .field
   git subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
@@ -38,15 +40,25 @@ EOF
   exit 1
 }
 
+context=''
+
 # Process command-line arguments
-while getopts "n" opt; do
+while getopts "c:n" opt; do
   case $opt in
+    c)
+      # Make context as /context/ with any slashes escaped
+      context=$(echo "$OPTARG" | sed 's|/|\\/|;s|^|/|;s|$|/|')
+      ;;
     n)
       show_only=1
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       usage
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
       ;;
   esac
 done
@@ -56,6 +68,9 @@ shift "$((OPTIND-1))"
 if [ "$#" -ne 2 ]; then
   usage
 fi
+
+from="$1"
+to="$2"
 
 # Obtain an in-place replacement option compatible with GNU and BSD sed
 if sed --quiet q /dev/null 2>/dev/null ; then
@@ -92,8 +107,8 @@ if [ -n "$show_only" ] ; then
 fi
 
 # Perform the specified replacement (-I excludes binary files)
-git grep -I --extended-regexp --null --name-only -- "$1" |
-  xargs $skip_empty -0 sed $regexp_extended $inplace "s$S$1$S$2${S}g"
+git grep -I --extended-regexp --null --name-only -- "$from" |
+  xargs $skip_empty -0 sed $regexp_extended $inplace "${context}s$S$from$S$to${S}g"
 
 if [ -n "$show_only" ] ; then
   git diff 'stash@{0}'

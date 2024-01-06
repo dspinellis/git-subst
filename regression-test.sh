@@ -19,6 +19,7 @@ trap 'rm -rf regression' EXIT
   ../git-subst '\<statuscode\>' statusCode  # Matches whole words only
   ../git-subst '\.method\(\)' '.field'      # .method() becomes .field
   ../git-subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
+  ../git-subst -c context 2 two
 )
 
 if diff result-file regression/test-file ; then

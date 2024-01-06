@@ -11,14 +11,26 @@ Place the `git-subst` file in a directory of your PATH and give it
 execute permission.
 
 ## Execution
-Run the command as: `git subst` _existing-RE-pattern_ _replacement-string_.
+Run the command as follows.
+
+`git subst` \[`-c` _context-RE_] \[`-n`] _existing-RE-pattern_ _replacement-string_
+
+The command-line options have the following meanings.
+
+
+`-c` _context_
+: Perform the change only on lines matching context regular expression.
+
+`-n`
+: Only show what replacements will be performed.
 
 ## Examples
 ```sh
-git subst old new  # All instances of "old" become "new"
-git subst -n old new  # Show the changes but do not perform them
-git subst '\.Body' .body  # The "." RE special character is escaped
+git subst old new          # Change old to new
+git subst -c ^// old new   # Change old to new only on lines starting with //
+git subst '\.Body' .body               # . RE character is escaped
 git subst '\<statuscode\>' statusCode  # Matches whole words only
+git subst '\.method\(\)' '.field'      # .method() becomes .field
 git subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
 ```
 
