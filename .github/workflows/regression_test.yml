@@ -1,0 +1,12 @@
+name: Run Regression Test
+
+on: [push, pull_request]
+
+jobs:
+  regression-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run regression-test.sh
+      run: |
+        ./regression-test.sh

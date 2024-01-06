@@ -1,3 +1,5 @@
+[![Run Regression Test](https://github.com/dspinellis/git-subst/actions/workflows/regression_test.yml/badge.svg)](https://github.com/dspinellis/git-subst/actions/workflows/regression_test.yml)
+
 # git-subst
 The git-subst Git subcommand substitutes the specified regular expression
 with the specified replacement.  The substitution is only performed in
