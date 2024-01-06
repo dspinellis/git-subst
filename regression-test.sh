@@ -10,8 +10,8 @@ trap 'rm -rf regression' EXIT
   git init
   cp ../test-file .
   git add test-file
-  git config --global user.email "jd@example.com"
-  git config --global user.name "John Doe"
+  git config user.email "jd@example.com"
+  git config user.name "John Doe"
   git commit -m 'Add test file'
 
   ../git-subst old new
