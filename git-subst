@@ -32,6 +32,7 @@ Examples:
   git subst old new
   git subst '\.Body' .body  # . RE character is escaped
   git subst '\<statuscode\>' statusCode  # Matches whole words only
+  git subst '\.method\(\)' '.field'      # .method() becomes .field
   git subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
 EOF
   exit 1
