@@ -24,10 +24,15 @@ The command-line options have the following meanings.
 `-n`
 : Only show what replacements will be performed.
 
+_<pathspec>..._
+: If given, limit the search to paths matching at least one pattern.
+Both leading paths match and glob(7) patterns are supported.
+
 ## Examples
 ```sh
 git subst old new          # Change old to new
 git subst -c ^// old new   # Change old to new only on lines starting with //
+git subst old new '*.js'   # Change old to new only in .js files
 git subst '\.Body' .body               # . RE character is escaped
 git subst '\<statuscode\>' statusCode  # Matches whole words only
 git subst '\.method\(\)' '.field'      # .method() becomes .field

@@ -8,8 +8,8 @@ trap 'rm -rf regression' EXIT
   mkdir regression
   cd regression
   git init
-  cp ../test-file .
-  git add test-file
+  cp ../test-file*.in .
+  git add *
   git config user.email "jd@example.com"
   git config user.name "John Doe"
   git commit -m 'Add test file'
@@ -19,12 +19,15 @@ trap 'rm -rf regression' EXIT
   ../git-subst '\<statuscode\>' statusCode  # Matches whole words only
   ../git-subst '\.method\(\)' '.field'      # .method() becomes .field
   ../git-subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
-  ../git-subst -c context 2 two
+  ../git-subst -c context 2 two             # Test context
+  ../git-subst main Main '*.c.in'           # Test path specification
 )
 
-if diff result-file regression/test-file ; then
-  echo 'Test succeded.'
-else
-  echo 'Test failed: results (expected, got) differ.' 1>&2
-  exit 1
-fi
+for i in test-file*.in ; do
+  if diff $(basename $i .in).ok regression/$i ; then
+    echo "Test $i succeded."
+  else
+    echo "Test $i failed: results (expected, got) differ." 1>&2
+    exit 1
+  fi
+done

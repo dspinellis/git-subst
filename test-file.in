@@ -4,3 +4,4 @@ statuscode statuscode2
 a.method()
 b.custom(name)
 context 2 two
+main

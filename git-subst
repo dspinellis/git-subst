@@ -22,16 +22,21 @@ set -e
 # Display usage information and exit
 usage()
 {
-  echo "Usage: $0 [-c context-RE] [-n] search-pattern replacement-string" 1>&2
+  echo "Usage: $0 [-c context-RE] [-n] search-pattern replacement-string [<pathspec>...]" 1>&2
   cat <<\EOF 1>&2
 Replace the specified regular expression with a string.
 
   -c context   Perform the change only on lines matching context regexp.
   -n           Only show what replacements will be performed.
+  <pathspec>...
+               If given, limit the search to paths matching at least one
+               pattern.  Both leading paths match and glob(7) patterns are
+               supported.
 
 Examples:
   git subst old new          # Change old to new
   git subst -c ^// old new   # Change old to new only on lines starting with //
+  git subst old new '*.js'   # Change old to new only in .js files
   git subst '\.Body' .body               # . RE character is escaped
   git subst '\<statuscode\>' statusCode  # Matches whole words only
   git subst '\.method\(\)' '.field'      # .method() becomes .field
@@ -65,12 +70,13 @@ done
 
 shift "$((OPTIND-1))"
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -lt 2 ]; then
   usage
 fi
 
 from="$1"
 to="$2"
+shift 2
 
 # Obtain an in-place replacement option compatible with GNU and BSD sed
 if sed --quiet q /dev/null 2>/dev/null ; then
@@ -107,7 +113,7 @@ if [ -n "$show_only" ] ; then
 fi
 
 # Perform the specified replacement (-I excludes binary files)
-git grep -I --extended-regexp --null --name-only -- "$from" |
+git grep -I --extended-regexp --null --name-only -e "$from" -- "$@" |
   xargs $skip_empty -0 sed $regexp_extended $inplace "${context}s$S$from$S$to${S}g"
 
 if [ -n "$show_only" ] ; then
