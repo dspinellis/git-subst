@@ -54,11 +54,11 @@ while getopts "C:c:n" opt; do
   case $opt in
     c)
       # Make context as /context/ with any slashes escaped
-      context=$(echo "$OPTARG" | sed 's|/|\\/|;s|^|/|;s|$|/|')
+      context=$(echo "$OPTARG" | sed 's|/|\\/|g;s|^|/|;s|$|/|')
       ;;
     C)
       # Make context as /context/! with any slashes escaped
-      context=$(echo "$OPTARG" | sed 's|/|\\/|;s|^|/|;s|$|/!|')
+      context=$(echo "$OPTARG" | sed 's|/|\\/|g;s|^|/|;s|$|/!|')
       ;;
     n)
       show_only=1
