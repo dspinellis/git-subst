@@ -2,7 +2,7 @@
 #
 # git subcommand to perform RE replacements
 #
-# Copyright 2020-2023 Diomidis Spinellis
+# Copyright 2020-2024 Diomidis Spinellis
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,11 +22,12 @@ set -e
 # Display usage information and exit
 usage()
 {
-  echo "Usage: $0 [-c context-RE] [-n] search-pattern replacement-string [<pathspec>...]" 1>&2
+  echo "Usage: $0 [-c|-C context-RE] [-n] search-pattern replacement-string [<pathspec>...]" 1>&2
   cat <<\EOF 1>&2
 Replace the specified regular expression with a string.
 
   -c context   Perform the change only on lines matching context regexp.
+  -C context   Perform the change only on lines not matching context regexp.
   -n           Only show what replacements will be performed.
   <pathspec>...
                If given, limit the search to paths matching at least one
@@ -36,6 +37,7 @@ Replace the specified regular expression with a string.
 Examples:
   git subst old new          # Change old to new
   git subst -c ^// old new   # Change old to new only on lines starting with //
+  git subst -C ^// old new   # As above only on lines not starting with //
   git subst old new '*.js'   # Change old to new only in .js files
   git subst '\.Body' .body               # . RE character is escaped
   git subst '\<statuscode\>' statusCode  # Matches whole words only
@@ -48,11 +50,15 @@ EOF
 context=''
 
 # Process command-line arguments
-while getopts "c:n" opt; do
+while getopts "C:c:n" opt; do
   case $opt in
     c)
       # Make context as /context/ with any slashes escaped
       context=$(echo "$OPTARG" | sed 's|/|\\/|;s|^|/|;s|$|/|')
+      ;;
+    C)
+      # Make context as /context/! with any slashes escaped
+      context=$(echo "$OPTARG" | sed 's|/|\\/|;s|^|/|;s|$|/!|')
       ;;
     n)
       show_only=1

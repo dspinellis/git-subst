@@ -20,6 +20,7 @@ trap 'rm -rf regression' EXIT
   ../git-subst '\.method\(\)' '.field'      # .method() becomes .field
   ../git-subst '\.custom\(([^)]*)\)' '.\1'  # .custom(foo) becomes .foo
   ../git-subst -c context 2 two             # Test context
+  ../git-subst -C '^[a-z.]' 3 4             # Test negative context
   ../git-subst main Main '*.c.in'           # Test path specification
 )
 

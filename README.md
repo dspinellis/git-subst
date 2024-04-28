@@ -13,13 +13,16 @@ execute permission.
 ## Execution
 Run the command as follows.
 
-`git subst` \[`-c` _context-RE_] \[`-n`] _existing-RE-pattern_ _replacement-string_
+`git subst` \[`-c`|`-C` _context-RE_] \[`-n`] _existing-RE-pattern_ _replacement-string_
 
 The command-line options have the following meanings.
 
 
 `-c` _context_
 : Perform the change only on lines matching context regular expression.
+
+`-C` _context_
+: Perform the change only on lines not matching context regular expression.
 
 `-n`
 : Only show what replacements will be performed.
@@ -32,6 +35,7 @@ Both leading paths match and glob(7) patterns are supported.
 ```sh
 git subst old new          # Change old to new
 git subst -c ^// old new   # Change old to new only on lines starting with //
+git subst -C ^// old new   # As above only on lines not starting with //
 git subst old new '*.js'   # Change old to new only in .js files
 git subst '\.Body' .body               # . RE character is escaped
 git subst '\<statuscode\>' statusCode  # Matches whole words only
