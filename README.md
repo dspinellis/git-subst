@@ -27,7 +27,7 @@ The command-line options have the following meanings.
 `-n`
 : Only show what replacements will be performed.
 
-_<pathspec>..._
+_pathspec..._
 : If given, limit the search to paths matching at least one pattern.
 Both leading paths match and glob(7) patterns are supported.
 
