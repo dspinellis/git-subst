@@ -13,7 +13,7 @@ execute permission.
 ## Execution
 Run the command as follows.
 
-`git subst` \[`-c`|`-C` _context-RE_] \[`-n`] _existing-RE-pattern_ _replacement-string_
+`git subst` \[`-c`|`-C` _context-RE_] \[`-n`] _existing-RE-pattern_ _replacement-string_ \[_pathspec_...\]
 
 The command-line options have the following meanings.
 
